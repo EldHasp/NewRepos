@@ -1,0 +1,52 @@
+﻿<Window x:Class="mvvmTabControlApp.Views.MainWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:mvvmTabControlApp"
+        xmlns:tabs="clr-namespace:mvvmTabControlApp.Views"
+        xmlns:model="clr-namespace:mvvmTabControlApp.ViewModels"
+        xmlns:views="clr-namespace:mvvmTabControlApp.Views"
+        xmlns:viewModel="clr-namespace:mvvmTabControlApp.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindowView" Height="450" Width="800">
+    <Window.DataContext>
+        <viewModel:MainWindowViewModel/>
+    </Window.DataContext>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Button x:Name="DateTabButton" Command="{Binding NewTabCommand}" Margin="0,0,12,0">Date Tab</Button>
+            <Button x:Name="OneTubButton" Command="{Binding NewTabCommand1}" Margin="0,0,12,0">One Tab</Button>
+            <Button x:Name="TwoTubButton" Command="{Binding NewTabCommand2}" Margin="0,0,12,0">Two Tab</Button>
+        </StackPanel>
+
+        <TabControl ItemsSource="{Binding Tabs}" Margin="10" BorderBrush="Gainsboro">
+            
+            <TabControl.Resources>
+                
+                <DataTemplate DataType="{x:Type model:DateTab}">
+                    <views:DateTabView/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type model:OneTab}">
+                    <views:OneTabView/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type model:TwoTab}">
+                    <views:TwoTabView/>
+                </DataTemplate>
+
+            </TabControl.Resources>
+
+            <TabControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type model:ITab}">
+                    <TextBlock>                        
+                        <Run Text="{Binding Name}"/>
+                        <Hyperlink Command="{Binding CloseCommand}">X</Hyperlink>
+                    </TextBlock>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+
+        </TabControl>
+    </DockPanel>
+</Window>
